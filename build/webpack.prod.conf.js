@@ -8,11 +8,50 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
+var htmlWebpack = require('./htmlWebpack');
 
 var env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : config.build.env;
 
+var plugins = [
+  new webpack.DefinePlugin({'process.env': env}),
+  new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: false
+    },
+    sourceMap: true
+  }),
+  // extract css into its own file
+  new ExtractTextPlugin({filename: utils.assetsPath('css/[name].[contenthash].css')}),
+  // Compress extracted CSS. We are using this plugin so that possible
+  // duplicated CSS from different components can be deduped.
+  new OptimizeCSSPlugin({
+    cssProcessorOptions: {
+      safe: false
+    }
+  }),
+  // 如何配置多页公共部分模块，还没想好怎么做
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendors', // 将公共模块提取，生成名为`vendors`的chunk
+    chunks: config.pagesList || ['index', 'list', 'about'], // 提取哪些模块共有的部分
+    minChunks: 3 // 提取至少3个模块共有的部分
+  }),
+  new webpack.optimize.CommonsChunkPlugin({name: 'manifest', chunks: ['vendor']}),
+  // copy custom static assets
+  new CopyWebpackPlugin([
+    {
+      from: path.resolve(__dirname, '../static'),
+      to: config.build.assetsSubDirectory,
+      ignore: ['.*']
+    }
+  ])
+];
+
+//  function push htmlss
+plugins = [...plugins, ...htmlWebpack(config.pagesList, config.build.env)];
+
+//
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({sourceMap: config.build.productionSourceMap, extract: true})
@@ -25,70 +64,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
-  plugins: [
-    // http://vuejs.github.io/vue-loader/en/workflow/production.html
-    new webpack.DefinePlugin({'process.env': env}),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
-      sourceMap: true
-    }),
-    // extract css into its own file
-    new ExtractTextPlugin({filename: utils.assetsPath('css/[name].[contenthash].css')}),
-    // Compress extracted CSS. We are using this plugin so that possible
-    // duplicated CSS from different components can be deduped.
-    new OptimizeCSSPlugin({
-      cssProcessorOptions: {
-        safe: false
-      }
-    }),
-    // generate dist index.html with correct asset hash for caching.
-    // you can customize output by editing /index.html
-    // see https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: process.env.NODE_ENV === 'testing'
-        ? 'index.html'
-        : config.build.index,
-      template: 'index.html',
-      inject: true,
-      favicon: 'favicon.png',
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
-      },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
-    }),
-    // 如何配置多页公共部分模块，还没想好怎么做
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'vendors', // 将公共模块提取，生成名为`vendors`的chunk
-    //   chunks: ['index', 'list', 'about'], // 提取哪些模块共有的部分
-    //   minChunks: 3 // 提取至少3个模块共有的部分
-    // }),
-    // split vendor js into its own file
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: function(module, count) {
-        // any required modules inside node_modules are extracted to vendor
-        return (module.resource && /\.js$/.test(module.resource) && module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0)
-      }
-    }),
-    // extract webpack runtime and module manifest to its own file in order to
-    // prevent vendor hash from being updated whenever app bundle is updated
-    new webpack.optimize.CommonsChunkPlugin({name: 'manifest', chunks: ['vendor']}),
-    // copy custom static assets
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../static'),
-        to: config.build.assetsSubDirectory,
-        ignore: ['.*']
-      }
-    ])
-  ]
+  plugins: plugins
 });
 
 if (config.build.productionGzip) {

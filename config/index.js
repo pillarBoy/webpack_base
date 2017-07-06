@@ -23,7 +23,8 @@ module.exports = {
     cssSourceMap: false
   },
   entries: {
-    index: './src/pages/js_entry/main.js',
-    list: './src/pages/js_entry/list.js',
-  }
+    index: './src/js/main.js',
+    list: './src/js/list.js',
+  },
+  pagesList: ['index', 'list'] // 必须是一个值为 入口名字 字符串 的数组
 };

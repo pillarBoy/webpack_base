@@ -8,7 +8,7 @@ function mkHtml(pageList, env) {
 
   pageList.forEach(function(pageName) {
     let option = env === 'production' ? { // 根据模板插入css/js等生成最终HTML
-      favicon: './src/img/favicon.ico', // favicon路径，通过webpack引入同时可以生成hash值
+      favicon: './src/assets/favicon.ico', // favicon路径，通过webpack引入同时可以生成hash值
       filename: `./${pageName}.html`, // 生成的html存放路径，相对于path
       template: `./src/views/${pageName}.html`, // html模板路径
       inject: true, // js插入的位置，true/'head'/'body'/false
@@ -20,10 +20,11 @@ function mkHtml(pageList, env) {
       }
     } : {
       filename: `./${pageName}.html`,
+      favicon: './src/assets/favicon.ico',
       template: `./src/views/${pageName}.html`,
+      chunks: ['vendors', pageName], // 需要引入的chunk，不配置就会引入所有页面的资源
       inject: true
     };
-
     pagesHtmls.push(new HtmlWebpackPlugin(option));
   });
   return pagesHtmls;

@@ -25,6 +25,7 @@ module.exports = {
   entries: {
     index: './src/js/main.js',
     list: './src/js/list.js',
+    about: './src/js/about.js'
   },
-  pagesList: ['index', 'list'] // 必须是一个值为 入口名字 字符串 的数组
+  pagesList: ['index', 'list', 'about'] // 必须是一个值为 入口名字 字符串 的数组
 };

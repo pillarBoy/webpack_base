@@ -1,5 +1,13 @@
 import '@/commenStyle/main.css';
-console.log('success...');
 import '@/commenStyle/text.scss';
-import com from '@/components/comment.js';
-com();
+import say from '@/components/comment.js';
+
+say('hello Andy');
+console.log('success...change...');
+
+// alert(111);
+function testjs() {
+  console.log(12);
+  // document.querySelector('body').style.backgroundColor = "red";
+}
+testjs();

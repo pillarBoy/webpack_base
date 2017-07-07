@@ -22,7 +22,7 @@ var plugins = [
     },
     sourceMap: true
   }),
-  // extract css into its own file
+  // extract css into its own file 此插件作用是 把样式分离成单独的文件，不打包到js中
   new ExtractTextPlugin({filename: utils.assetsPath('css/[name].[contenthash].css')}),
   // Compress extracted CSS. We are using this plugin so that possible
   // duplicated CSS from different components can be deduped.

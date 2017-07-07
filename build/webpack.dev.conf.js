@@ -17,25 +17,21 @@ var plugins = [
   new webpack.DefinePlugin({
     'process.env': config.dev.env
   }),
-  // extract css into its own file
-  new ExtractTextPlugin({
-    filename: utils.assetsPath('css/[name].[contenthash].css')
-  }),
+  // new ExtractTextPlugin({
+  //   filename: utils.assetsPath('css/[name].[contenthash].css')
+  // }),
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoEmitOnErrorsPlugin(),
-
   new FriendlyErrorsPlugin()
 ];
 
 plugins = [...plugins, ...htmlWebpack(config.pagesList, config.dev.env)];
 
-console.log(plugins);
-
 module.exports = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.dev.cssSourceMap,
-      extract: true
+      extract: false // 是否需要单独分离样式 css文件
     })
   },
   // cheap-module-eval-source-map is faster for development

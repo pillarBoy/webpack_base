@@ -34,7 +34,7 @@ var plugins = [
   // 如何配置多页公共部分模块，还没想好怎么做
   new webpack.optimize.CommonsChunkPlugin({
     name: 'vendors', // 将公共模块提取，生成名为`vendors`的chunk
-    chunks: config.pagesList || ['index', 'list', 'about'], // 提取哪些模块共有的部分
+    chunks: config.pagesList, // 提取哪些模块共有的部分
     minChunks: 3 // 提取至少3个模块共有的部分
   }),
   new webpack.optimize.CommonsChunkPlugin({name: 'manifest', chunks: ['vendor']}),

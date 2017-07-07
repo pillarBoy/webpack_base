@@ -22,10 +22,12 @@ module.exports = {
     proxyTable: {},
     cssSourceMap: false
   },
+  // 页面入口配置
   entries: {
     index: './src/js/main.js',
     list: './src/js/list.js',
     about: './src/js/about.js'
   },
+  // 这是多页入口配置的名字 数组
   pagesList: ['index', 'list', 'about'] // 必须是一个值为 入口名字 字符串 的数组
 };

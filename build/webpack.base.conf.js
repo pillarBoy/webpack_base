@@ -18,6 +18,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.css', '.scss', '.json'],
+    // 引入 别名
     alias: {
       // 'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src')

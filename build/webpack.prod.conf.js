@@ -45,7 +45,14 @@ var plugins = [
       to: config.build.assetsSubDirectory,
       ignore: ['.*']
     }
-  ])
+  ])，
+  // 全局引入
+  new webpack.ProvidePlugin({
+    $: 'jquery',
+    jquery: 'jquery',
+    'window.jquery': 'jquery',
+    'window.$': 'jquery'
+  })
 ];
 
 //  function push htmlss

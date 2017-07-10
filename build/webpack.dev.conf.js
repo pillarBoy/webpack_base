@@ -22,7 +22,14 @@ var plugins = [
   // }),
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoEmitOnErrorsPlugin(),
-  new FriendlyErrorsPlugin()
+  new FriendlyErrorsPlugin(),
+  // 全局引入
+  new webpack.ProvidePlugin({
+    $: 'jquery',
+    jquery: 'jquery',
+    'window.jquery': 'jquery',
+    'window.$': 'jquery'
+  })
 ];
 
 plugins = [...plugins, ...htmlWebpack(config.pagesList, config.dev.env)];

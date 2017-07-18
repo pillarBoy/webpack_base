@@ -45,7 +45,7 @@ var plugins = [
       to: config.build.assetsSubDirectory,
       ignore: ['.*']
     }
-  ])，
+  ]),
   // 全局引入
   new webpack.ProvidePlugin({
     $: 'jquery',

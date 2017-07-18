@@ -8,8 +8,14 @@
 
 
 ```
-  # 下载相关以来
-  npm install
+  # 确定电脑有npm 如果没有npm，请移步 ☞ http://nodejs.cn/ 安装
+
+  # 请安装cnpm  https://npm.taobao.org/
+  npm install -g cnpm --registry=https://registry.npm.taobao.org
+  (注: 为何一定要安装cnpm, 因为本项目是用到node-sass模块, 而npm在install node-sass的时候很容易出错,所以建议是用cnpm 安装本项目需要的包)
+
+  # 下载相关包
+  cnpm install
 
   # 启动服务
   npm start

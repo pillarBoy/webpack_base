@@ -1,0 +1,28 @@
+@import "./mob/fun.scss";
+
+.mob-layer {
+  position: absolute;
+  // height: 100%;
+  bottom: 0;
+  z-index: 10;
+
+  .layer {
+    bottom: 0;
+    height: auto;
+
+    .layer-title {
+      color: #fff;
+      height: 0;
+      overflow-y: hidden;
+      padding-top: pxToRem(105);
+      a {
+        color: #fff;
+      }
+    }
+
+    .close-layer {
+      width: 0;
+      height: 0;
+    }
+  }
+}
